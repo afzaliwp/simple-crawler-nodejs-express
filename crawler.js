@@ -9,11 +9,19 @@ const getWebPage = async (url) => {
         .then((result) => {
             crawledData = result;
             $ = cheerio.load(crawledData.data);
+        })
+        .catch((error) => {
+            console.log('there is an error', error.message);
         });
 
 
     return {
-        price: Number( $('p.price .woocommerce-Price-amount').text() ),
+        title: $('.product_title.entry-title').text(),
+        currency: $('.woocommerce-Price-currencySymbol').text(),
+        price: Number($('p.price .woocommerce-Price-amount').text()),
+        categories: $('.posted-in .product-categories').text(),
+        shortDescription: $('.woocommerce-product-details__short-description').text(),
+        description: $('#collapsedescription .card-body').text(),
     };
 }
 
